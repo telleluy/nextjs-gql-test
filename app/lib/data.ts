@@ -53,7 +53,6 @@ client.updateAuthentication(AuthMode.Public)
 // Execute a GraphQL query, the second paramer can be used to send in variables
 export async function GetContentItems() {
     const res = await client.request(document)
-    console.log(res.ArtistDetailsPage.items)
     return res.ArtistDetailsPage.items
 }
 
@@ -61,15 +60,12 @@ export async function GetArtist(  lang: string,
   artistname: string,) { 
   
   var artistUrlEnd = artistname.endsWith("/") ? artistname : artistname + "/" 
-  console.log(lang)    
-  console.log(artistUrlEnd)    
 
   const res = await client.request(artist, {"locale":lang, "name" : artistUrlEnd})
   // console.log(res.ArtistDetailsPage.items)
   return res.ArtistDetailsPage.items[0]
 }
 export async function GetStage(  lang: string, stage: string) { 
-  console.log("lang" + lang)
   const res = await client.request(stageQ, {"locale": lang, "StageName":stage})
   // console.log(res.ArtistDetailsPage.items)
   return res.ArtistDetailsPage.items

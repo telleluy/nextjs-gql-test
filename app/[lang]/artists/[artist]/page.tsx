@@ -5,8 +5,6 @@ import { GetArtist, GetContentItems } from '@/app/lib/data';
 
 
 export default async function Page({ params }: { params: { lang: string, artist: string } }) {
-  console.log(params.lang) 
-  console.log(params.artist) 
   const artist = await GetArtist(params.lang, params.artist);
   return (
     
@@ -16,10 +14,6 @@ export default async function Page({ params }: { params: { lang: string, artist:
       </div>
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
         <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
-
-        {/* artist name param {params.artist}<br/> */}
-          {console.log("lang" + JSON.stringify(artist))}
-
           <h2>{artist.Name}</h2>
           <h3>Genre: {artist.ArtistGenre}</h3>
           Stage: <Link href={
@@ -30,16 +24,7 @@ export default async function Page({ params }: { params: { lang: string, artist:
           <b>Description:
           </b>
           <div dangerouslySetInnerHTML={{ __html: artist.ArtistDescription }}/>
-          {/* {contentItems && contentItems.length>0 && contentItems.map(contentItem => (
-            <div> 
-              <Link
-                href={contentItem.Url}
-                className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
-              >
-                {contentItem.Name}
-              </Link>
-            </div>
-          ))} */}
+          
         </div>
         <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
           {/* Add Hero Images Here */}

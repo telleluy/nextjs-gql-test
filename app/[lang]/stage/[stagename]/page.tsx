@@ -3,7 +3,6 @@ import { GetArtist, GetContentItems, GetStage } from '@/app/lib/data';
 
 
 export default async function Page({ params }: { params: { lang: string, stagename: string } }) {
-  console.log("dsadsa"+ params.lang)
   const artists = await GetStage(params.lang, params.stagename); 
   return (
     
