@@ -1,3 +1,35 @@
+import { gql } from 'graphql-request'
+import createClient, { AuthMode } from '@remkoj/optimizely-graph-client/client'
+
+// Prepare the query
+const document = gql`query MyQuery {
+    Content {
+      items {
+        Name
+        Url
+      }
+    }
+  }`
+
+// Create an instance of the client, the configuration object may be omitted 
+// when executing on Node.JS. If no configuration is provided, it will be read
+// from the environment variables.
+// The variable client will be of type: GraphQLClient
+const client = createClient()
+
+// By default the client will always use AuthMode.Public, unless overridden by the
+// second parameter of createClient. Use the updateAuthentication to change the
+// authentication mode after creation
+client.updateAuthentication(AuthMode.Public)
+
+// Execute a GraphQL query, the second paramer can be used to send in variables
+export async function GetContentItems() {
+    const res = await client.request(document)
+    return res.Content.items
+}
+
+
+
 import { sql } from '@vercel/postgres';
 import {
   CustomerField,
