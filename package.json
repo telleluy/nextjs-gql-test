@@ -8,6 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "graphql-request": "^6.1.0",
+    "@remkoj/optimizely-graph-client": "1.0.4",
     "@heroicons/react": "^2.0.18",
     "@tailwindcss/forms": "^0.5.7",
     "@types/node": "20.5.7",
