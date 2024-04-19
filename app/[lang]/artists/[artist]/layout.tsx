@@ -5,10 +5,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <a href="/">Back to Start</a>
-        {children}
-      </body>
+      <a href="/">Back to Start</a>
+      <body>{children}</body>
     </html>
   );
 }

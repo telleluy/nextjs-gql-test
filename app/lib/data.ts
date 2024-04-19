@@ -3,13 +3,41 @@ import createClient, { AuthMode } from '@remkoj/optimizely-graph-client/client'
 
 // Prepare the query
 const document = gql`query MyQuery {
-    Content {
+  ArtistDetailsPage (limit: 50){
       items {
         Name
         Url
       }
     }
   }`
+const artist = gql`query MyQuery ($locale: [Locales], $name: String) {
+  ArtistDetailsPage(limit: 50, locale: $locale, where: { Url: { endsWith: $name } }) {
+    items {
+      ArtistGenre
+      ArtistDescription
+      ArtistName
+      ArtistPhoto
+      Name
+      StageName
+      _id
+      Language {
+        Name
+        Link
+        DisplayName
+      }
+    }
+  }
+}`
+
+const stageQ = gql`query MyQuery ($locale: [Locales], $StageName: String) {
+  ArtistDetailsPage (limit: 50, locale: $locale, where: {StageName: {eq: $StageName}}){
+    items {
+      Name
+      Url
+      StageName
+    }
+  }
+}`
 
 // Create an instance of the client, the configuration object may be omitted 
 // when executing on Node.JS. If no configuration is provided, it will be read
@@ -25,11 +53,27 @@ client.updateAuthentication(AuthMode.Public)
 // Execute a GraphQL query, the second paramer can be used to send in variables
 export async function GetContentItems() {
     const res = await client.request(document)
-    return res.Content.items
+    console.log(res.ArtistDetailsPage.items)
+    return res.ArtistDetailsPage.items
 }
 
+export async function GetArtist(  lang: string,
+  artistname: string,) { 
+  
+  var artistUrlEnd = artistname.endsWith("/") ? artistname : artistname + "/" 
+  console.log(lang)    
+  console.log(artistUrlEnd)    
 
-
+  const res = await client.request(artist, {"locale":lang, "name" : artistUrlEnd})
+  // console.log(res.ArtistDetailsPage.items)
+  return res.ArtistDetailsPage.items[0]
+}
+export async function GetStage(  lang: string, stage: string) { 
+  console.log("lang" + lang)
+  const res = await client.request(stageQ, {"locale": lang, "StageName":stage})
+  // console.log(res.ArtistDetailsPage.items)
+  return res.ArtistDetailsPage.items
+}
 import { sql } from '@vercel/postgres';
 import {
   CustomerField,
